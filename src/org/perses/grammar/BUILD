@@ -66,6 +66,7 @@ kt_jvm_library(
         "//src/org/perses/grammar/solidity/preprocessed:parser_facade",
         "//src/org/perses/grammar/sqlite:parser_facade",
         "//src/org/perses/grammar/sysverilog:parser_facade",
+        "//src/org/perses/grammar/wgsl:parser_facade",
         "//src/org/perses/program:language_kind",
     ],
 )

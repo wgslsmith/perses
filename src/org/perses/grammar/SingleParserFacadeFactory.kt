@@ -46,6 +46,8 @@ import org.perses.grammar.sqlite.LanguageSQLite
 import org.perses.grammar.sqlite.SQLiteParserFacade
 import org.perses.grammar.sysverilog.LanguageSystemVerilog
 import org.perses.grammar.sysverilog.PnfSysverilogParserFacade
+import org.perses.grammar.wgsl.LanguageWgsl
+import org.perses.grammar.wgsl.WgslParserFacade
 import org.perses.program.LanguageKind
 
 /** Creates a parser facade, based on the type of language kind.  */
@@ -114,6 +116,7 @@ class SingleParserFacadeFactory private constructor(
       builder.add(LanguageSQLite, { SQLiteParserFacade() }, customizer)
       builder.add(LanguagePython3, { Python3ParserFacade() }, customizer)
       builder.add(LanguageRuby, { PnfRubyParserFacade() }, customizer)
+      builder.add(LanguageWgsl, { WgslParserFacade() }, customizer)
       return builder
     }
 

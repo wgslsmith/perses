@@ -29,6 +29,7 @@ import org.perses.util.Util
 import org.perses.util.toImmutableList
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.time.LocalDateTime
 import java.util.concurrent.atomic.AtomicInteger
@@ -41,12 +42,11 @@ abstract class AbstractReductionIOManager
   outputDirectory: Path?
 ) {
 
-  val tempRootFolder = workingFolder.resolve(
-    getTempRootFolderName(
-      reductionInputs.relativePathSequence().asIterable(),
-      reductionInputs.testScript.file.fileName.toString(),
-      LocalDateTime.now()
-    )
+  val tempRootFolder = getTempRootFolderPath(
+    workingFolder,
+    reductionInputs.relativePathSequence().asIterable(),
+    reductionInputs.testScript.file.fileName.toString(),
+    LocalDateTime.now()
   )
 
   abstract fun getConcreteReductionInputs(): AbstractReductionInputs
@@ -195,6 +195,22 @@ abstract class AbstractReductionIOManager
           testScriptName,
           TimeUtil.formatDateForFileName(time)
         )
+    }
+
+    @JvmStatic
+    fun getTempRootFolderPath(
+      workingFolder: Path,
+      fileNameForReduction: Iterable<Path>,
+      testScriptName: String?,
+      time: LocalDateTime
+    ): Path {
+      val name = getTempRootFolderName(fileNameForReduction, testScriptName, time)
+      val tmpdir = System.getenv("TMPDIR")
+      return if (tmpdir != null) {
+        Paths.get(tmpdir, name)
+      } else {
+        workingFolder.resolve(name)
+      }
     }
   }
 

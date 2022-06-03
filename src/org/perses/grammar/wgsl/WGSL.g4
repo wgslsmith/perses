@@ -12,7 +12,8 @@ COMMENT: '//' .*? EOL -> skip;
 // Literals
 
 BOOL_LITERAL: 'false' | 'true';
-INT_LITERAL: ('0' [xX] [0-9a-fA-F]+ | '0' | [1-9][0-9]*) [iu]?;
+INT_LITERAL: '-'? ('0' [xX] [0-9a-fA-F]+ | '0' | [1-9][0-9]*) [iu]?;
+FLOAT_LITERAL: '-'? [0-9]+ '.' [0-9]+;
 
 // Type-defining keywords
 
@@ -52,6 +53,7 @@ LET: 'let';
 LOOP: 'loop';
 OVERRIDE: 'override';
 PRIVATE: 'private';
+PTR: 'ptr';
 READ: 'read';
 READ_WRITE: 'read_write';
 RETURN: 'return';
@@ -114,8 +116,9 @@ IDENT: [_\p{XID_Start}] [\p{XID_Continue}]+ | [\p{XID_Start}];
 // Literals
 
 int_literal: INT_LITERAL;
+float_literal: FLOAT_LITERAL;
 bool_literal: BOOL_LITERAL;
-const_literal: int_literal | bool_literal;
+const_literal: int_literal | float_literal | bool_literal;
 
 // Attributes
 
@@ -147,6 +150,7 @@ type_decl_without_ident: BOOL
                        | UINT32
                        | vec_prefix LESS_THAN type_decl GREATER_THAN
                        | mat_prefix LESS_THAN type_decl GREATER_THAN
+                       | PTR LESS_THAN address_space COMMA type_decl (COMMA access_mode)? GREATER_THAN
                        | array_type_decl;
 
 vec_prefix: VEC2 | VEC3 | VEC4;
@@ -273,7 +277,7 @@ else_statement: compound_statement | if_statement;
 switch_statement: SWITCH expression BRACE_LEFT switch_body+ BRACE_RIGHT;
 switch_body: CASE case_selectors COLON? case_compound_statement
            | DEFAULT COLON? case_compound_statement;
-case_selectors: const_literal (COMMA const_literal)* COMMA?;
+case_selectors: expression (COMMA expression)* COMMA?;
 case_compound_statement: BRACE_LEFT statement* fallthrough_statement? BRACE_RIGHT;
 fallthrough_statement: FALLTHROUGH SEMICOLON;
 

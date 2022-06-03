@@ -12,7 +12,7 @@ public final class WgslParserFacade
     public WgslParserFacade() {
         super(
                 LanguageWgsl.INSTANCE,
-                createCombinedAntlrGrammar("WGSL.g4", WgslParserFacade.class),
+                createCombinedAntlrGrammar("PnfWGSL.g4", WgslParserFacade.class),
                 PnfWGSLLexer.class,
                 PnfWGSLParser.class,
                 ImmutableIntArray.of(PnfWGSLLexer.IDENT));

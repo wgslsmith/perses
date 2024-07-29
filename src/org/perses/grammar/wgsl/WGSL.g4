@@ -13,7 +13,7 @@ COMMENT: '//' .*? EOL -> skip;
 
 BOOL_LITERAL: 'false' | 'true';
 INT_LITERAL: '-'? ('0' [xX] [0-9a-fA-F]+ | '0' | [1-9][0-9]*) [iu]?;
-FLOAT_LITERAL: '-'? [0-9]+ '.' [0-9]+;
+FLOAT_LITERAL: '-'? [0-9]+ ('.' [0-9]+)? [fF]?;
 
 // Type-defining keywords
 
